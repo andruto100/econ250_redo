@@ -1,0 +1,22 @@
+version: 2
+models:
+  - name: stg_redo_customers
+    description: "Cleaned customer data with standardized fields and validated zip codes"
+    columns:
+      - name: customer_id
+        description: "Each order has a unique customer_id"
+        tests:
+          - unique
+          - not_null
+      - name: customer_unique_id
+        description: "Unique identifier of a customer"
+        tests:
+          - not_null
+      - name: customer_zip_code
+        description: "First five digits of the customer zip code, checked for appropriate values."
+      - name: customer_city
+        description: "Customer city name, lower case"
+      - name: customer_state
+        description: "Two-letter abbreviation for the customer state, upper case"
+      - name: city_state
+        description: "Customer`s city-state"
