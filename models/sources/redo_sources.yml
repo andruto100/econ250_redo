@@ -1,0 +1,154 @@
+version: 2
+
+sources:
+  - name: AD_Redo
+    database: econ250-2025
+    schema: AD_Redo
+    tables:
+
+      - name: redo_customers
+        description: "Customer table"
+        columns:
+          - name: customer_id
+            description: "Each order has a unique customer_id"
+            tests:
+              - not_null
+              - unique
+          - name: customer_unique_id
+            description: "Unique identifier of a customer"
+            tests:
+              - not_null
+          - name: customer_city
+            description: "Customer city name"
+          - name: customer_state
+            description: "Two-letter abbreviation for the customer state "
+          - name: customer_zip_code_prefix
+            description: "First five digits of customer zip code"
+      - name: redo_orders
+        description: "Orders table. This is the core dataset. From each order you might find all other information"
+        columns:
+          - name: order_id
+            description: "Unique identifier of the order"
+            tests:
+              - not_null
+              - unique
+          - name: customer_id
+            description: "Key to the customer dataset. Each order has a unique customer_id"
+            tests:
+              - not_null
+          - name: order_status
+            description: "Reference to the order status (delivered, shipped, etc)"
+          - name: order_purchase_timestamp
+            description: "Shows the purchase timestamp"
+          - name: order_approved_at
+            description: "Shows the payment approval timestamp"
+          - name: order_delivered_carrier_date
+            description: "Shows the order posting timestamp. When it was handled to the logistic partner"
+          - name: order_delivered_customer_date
+            description: "Shows the actual order delivery date to the customer"
+          - name: order_estimated_delivery_date
+            description: "Shows the estimated delivery date that was informed to customer at the purchase moment"
+
+      - name: redo_order_items
+        description: "This dataset includes data about the items purchased within each order"
+        columns:
+          - name: order_id
+            description: "Order unique identifier"
+            tests:
+              - not_null
+          - name: order_item_id
+            description: "Sequential number identifying number of items included in the same order"
+            tests:
+              - not_null
+          - name: product_id
+            description: "Product unique identifier"
+            tests:
+              - not_null
+          - name: seller_id
+            description: "Seller unique identifier"
+            tests:
+              - not_null
+          - name: shipping_limit_date
+            description:  "Shows the seller shipping limit date for handling the order over to the logistic partner"
+          - name: price
+            description: "Item price"
+            tests:
+              - not_null
+          - name: freight_value
+            description: "Item freight value item (if an order has more than one item the freight value is splitted between items)"
+            tests:
+              - not_null
+      - name: redo_order_payments
+        description: "This dataset includes data about the orders payment options"
+        columns:
+          - name: order_id
+            description: "Unique identifier of an order"
+            tests:
+              - not_null
+          - name: payment_sequential
+            description: "A customer may pay an order with more than one payment method. If he does so, a sequence will be created to"
+            tests:
+              - not_null
+          - name: payment_type
+            description: "Method of payment chosen by the customer"
+            tests:
+              - not_null
+          - name: payment_installments
+            description: "Number of installments chosen by the customer"
+            tests:
+              - not_null
+          - name: payment_value
+            description: "Transaction value"
+            tests:
+              - not_null
+      - name: redo_products
+        description: "This dataset includes data about the products sold by Olist"
+        columns:
+          - name: product_id
+            description: "Unique product identifier"
+            tests:
+              - unique
+              - not_null
+          - name: product_category_name
+            description: "Root category of product, in Portuguese."
+          - name: product_name_lenght
+            description: "Number of characters extracted from the product name"
+          - name: product_description_lenght
+            description: "Number of characters extracted from the product description"
+          - name: product_photos_qty
+            description: "Number of product published photos"
+          - name: product_weight_g
+            description: "Product weight measured in grams"
+          - name: product_length_cm
+            description: "Product length measured in centimeters"
+          - name: product_height_cm
+            description: "Product height measured in centimeters"
+          - name: product_width_cm
+            description: "Product width measured in centimeters"
+      - name: redo_sellers
+        description: "This dataset includes data about the sellers that fulfilled orders made at Olist"
+        columns:
+          - name: seller_id
+            description: "Seller unique identifier"
+            tests:
+              - unique
+              - not_null
+          - name: seller_zip_code_prefix
+            description: "First 5 digits of seller zip code"
+          - name: seller_city
+            description: "Seller city name"
+          - name: seller_state
+            description: "Seller state"
+
+      - name: redo_product_category_translation
+        description: "Translates the product_category_name to english"
+        columns:
+            - name: string_field_0
+              description : "Category name in Portuguese"
+              tests:
+                - not_null
+                - unique
+            - name: string_field_1
+              description : "Category name in English"
+              tests:
+                - not_null
