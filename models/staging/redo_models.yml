@@ -20,3 +20,36 @@ models:
         description: "Two-letter abbreviation for the customer state, upper case"
       - name: city_state
         description: "Customer`s city-state"
+  - name: stg_redo_orders
+    description: "Cleaned order data with standardized status and delivery metrics"
+    columns:
+      - name: order_id
+        description: "Unique identifier of the order"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Key to the customer dataset. Each order has a unique customer_id"
+        tests:
+          - not_null
+      - name: order_status
+        description: "Reference to the order status"
+        tests:
+          - accepted_values:
+              values: ['delivered', 'shipped', 'canceled', 'unavailable', 'invoiced', 'processing', 'created', 'approved']
+      - name: order_purchase_at
+        description: "Shows the purchase timestamp"
+      - name: order_approved_at
+        description: "Shows the payment approval timestamp(null if not approved)"
+      - name: order_delivered_carrier_at
+        description: "Shows the order posting timestamp. When it was handled to the logistic partner(null if not shipped)"
+      - name: order_delivered_customer_at
+        description: "Shows the actual order delivery date to the customer(null if not delivered)"
+      - name: order_estimated_delivery_at
+        description: "Shows the estimated delivery date that was informed to customer at the purchase moment"
+      - name: days_to_delivery
+        description: "Days between order purchase and delivery (null if not delivered)"
+      - name: is_shipped
+        description: "Boolean indicator of order shipping status"
+      - name: is_delivered
+        description: "Boolean indicator of order delivery status"
