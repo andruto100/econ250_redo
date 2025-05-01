@@ -197,3 +197,19 @@ models:
         description: "Concatenated city and state, standardized to lowercase."
         tests:
           - not_null
+  - name: stg_redo_product_category_translation
+    description: "Translates the product_category_name to english with standardized names and Boolean translation status"
+    columns:
+      - name: product_category_name
+        description: "Product category name in Portuguese, standardized to lowercase, nulls replaced with 'unknown'"
+        tests:
+          - not_null
+          - unique
+      - name: product_category_name_english
+        description: "English translation of product category name, standardized to lowercase, nulls replaced with 'unknown'"
+        tests:
+          - not_null
+      - name: has_english_translation
+        description: "Boolean indicating if a non-null English translation exists"
+        tests:
+          - not_null
