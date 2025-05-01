@@ -87,3 +87,37 @@ models:
     tests:
       - unique:
           column_name: "(order_id, order_item_id)"
+  - name: stg_redo_order_payments
+    description: "This dataset includes standardized data about the orders payment options and installment flag"
+    columns:
+      - name: order_id
+        description: "Unique identifier of the order"
+        tests:
+          - not_null
+      - name: payment_sequential
+        description: "A customer may pay an order with more than one payment method. If he does so, a sequence will be created to"
+        tests:
+          - not_null
+      - name: payment_type
+        description: "Method of payment chosen by the customer, null replaced with 'unknown', standardized to lowercase"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['credit_card', 'boleto', 'voucher', 'debit_card', 'not_defined', 'unknown']
+      - name: payment_installments
+        description: "Number of installments chosen by the customer, nulls replaced with 0"
+        tests:
+          - not_null
+          - not_negative
+      - name: payment_value
+        description: "Transaction value, nulls replaced with 0"
+        tests:
+          - not_null
+          - not_negative
+      - name: is_installment_payment
+        description: "Boolean indicating if payment is in multiple installments"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(order_id, payment_sequential)"
