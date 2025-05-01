@@ -121,3 +121,55 @@ models:
     tests:
       - unique:
           column_name: "(order_id, payment_sequential)"
+  - name: stg_redo_products
+    description: "This dataset includes data about the products sold by Olist, standardized and added volumetric weight"
+    columns:
+      - name: product_id
+        description: "Unique product identifier"
+        tests:
+          - unique
+          - not_null
+      - name: product_category_name
+        description: "Root category of product, in Portuguese, nulls replaced with 'unknown'"
+        tests:
+          - not_null
+      - name: product_name_length
+        description: "Number of characters extracted from the product name, nulls replaced with 0"
+        tests:
+          - not_null
+          - not_negative
+      - name: product_description_length
+        description: "Number of characters extracted from the product description, nulls replaced with 0."
+        tests:
+          - not_null
+          - not_negative
+      - name: product_photos_qty
+        description: "Number of product published photos, nulls replaced with 0"
+        tests:
+          - not_null
+          - not_negative
+      - name: product_weight_g
+        description: "Product weight in grams, nulls replaced with 0"
+        tests:
+          - not_null
+          - not_negative
+      - name: product_length_cm
+        description: "Product length in cm, nulls replaced with 0"
+        tests:
+          - not_null
+          - not_negative
+      - name: product_height_cm
+        description: "Product height in cm, nulls replaced with 0"
+        tests:
+          - not_null
+          - not_negative
+      - name: product_width_cm
+        description: "Product width in cm, nulls replaced with 0"
+        tests:
+          - not_null
+          - not_negative
+      - name: volumetric_weight_kg
+        description: "Volumetric weight in kg (length * width * height / 5000), null dimensions replaced with 0 "
+        tests:
+          - not_null
+          - not_negative
