@@ -173,3 +173,27 @@ models:
         tests:
           - not_null
           - not_negative
+  - name: stg_redo_sellers
+    description: "This dataset includes data about the sellers that fulfilled orders made at Olist, standardised, 5-digit zip"
+    columns:
+      - name: seller_id
+        description: "Seller unique identifier"
+        tests:
+          - unique
+          - not_null
+      - name: seller_zip_code
+        description: "Seller zip code (first 5 digits, converted from INT64 to 5-digit string; 4-digit values padded with leading zero), nulls or invalid values replaced with '00000'."
+        tests:
+          - not_null
+      - name: seller_city
+        description: "Seller city name, standardized to lowercase, nulls replaced with 'unknown'" 
+        tests:
+          - not_null
+      - name: seller_state
+        description: "Seller state, standardized to lowercase, nulls replaced with 'unknown'"
+        tests:
+          - not_null
+      - name: city_state
+        description: "Concatenated city and state, standardized to lowercase."
+        tests:
+          - not_null
