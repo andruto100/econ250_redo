@@ -84,8 +84,6 @@ models:
         description: "Total cost (price + freight_value)"
         tests:
           - not_negative
-      - name: has_freight_cost
-        description: Boolean indicating if freight cost is non-zero.
     tests:
       - unique:
           column_name: "(order_id, order_item_id)"
