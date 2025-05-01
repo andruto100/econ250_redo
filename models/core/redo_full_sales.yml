@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: redo_sales_full
+    description: "
+      This model aggregates full sales data per order. It merges order-level, customer, item, and payment information.
+      The model is partitioned by `order_purchase_at` for better performance and cost optimization. 
+      Clustering by `order_id` and `customer_id` also optimizes filtering and joins. 
+      `ARRAY_AGG` is used for `order_items` to capture multi-item orders in one row."
+    columns:
+      - name: order_id
+        description: "Unique identifier of the order"
+      - name: customer_id
+        description: "Key to the customer dataset. Each order has a unique customer_id"
+      - name: customer_unique_id
+        description: "Unique identifier of a customer"
+      - name: customer_zip_code
+        description: "Zip code of the customer"
+      - name: customer_city
+        description: "City of the customer"
+      - name: customer_state
+        description: "State of the customer"
+      - name: order_status
+        description: "Reference to the order status (delivered, shipped, etc)"
+      - name: order_purchase_at
+        description: "Shows the purchase timestamp"
+      - name: order_delivered_customer_at
+        description: "Shows the actual order delivery date to the customer (null if not delivered)"
+      - name: order_approved_at
+        description: "Shows the payment approval timestamp (null if not approved)"
+      - name: days_to_delivery
+        description: "Days between order purchase and delivery (null if not delivered)"
+      - name: is_multi_item
+        description: "TRUE if the order contains more than one item"
+      - name: order_items.product_id
+        description: "Unique identifier for the product in the order"
+      - name: order_items.seller_id
+        description: "Unique identifier for the seller of the product"
+      - name: order_items.product_category_name
+        description: "Product category name in Portuguese"
+      - name: order_items.product_category_name_english
+        description: "Product category name in English"
+      - name: order_items.price
+        description: "Price of the product in the order"
+      - name: order_items.freight_value
+        description: "Freight value for the product in the order"
+      - name: payments.payment_type
+        description: "Type of payment used (e.g., credit card, boleto)"
+      - name: payments.payment_installments
+        description: "Number of installments for the payment"
+      - name: payments.payment_value
+        description: "Total value of the payment"
+      - name: days_to_delivery
+        description: "Days between order purchase and delivery (null if not delivered)"
+      - name: is_multi_item
+        description: "TRUE if the order contains more than one item"
