@@ -53,3 +53,39 @@ models:
         description: "Boolean indicator of order shipping status"
       - name: is_delivered
         description: "Boolean indicator of order delivery status"
+  - name: stg_redo_order_items
+    description: "This dataset includes data about the items purchased within each order with standardized pricing and derived costs"
+    columns:
+      - name: order_id
+        description: "Unique identifier of the order"
+      - name: order_item_id
+        description: "Sequential number identifying number of items included in the same order"
+        tests:
+          - not_null
+      - name: product_id
+        description: "Product unique identifier"
+        tests:
+          - not_null
+      - name: seller_id
+        description: "Seller unique identifier"
+        tests:
+          - not_null
+      - name: shipping_limit_at
+        description: "Shows the seller shipping limit date for handling the order over to the logistic partner"
+      - name: price
+        description: "Item price nulls replaced with 0"
+        tests:
+          - not_negative
+      - name: freight_value
+        description: "Shipping cost, nulls replaced with 0"
+        tests:
+          - not_negative
+      - name: total_item_cost
+        description: "Total cost (price + freight_value)"
+        tests:
+          - not_negative
+      - name: has_freight_cost
+        description: Boolean indicating if freight cost is non-zero.
+    tests:
+      - unique:
+          column_name: "(order_id, order_item_id)"
