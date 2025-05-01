@@ -3,8 +3,12 @@ select
   customer_unique_id,
   COALESCE(
     CASE
-      WHEN REGEXP_CONTAINS(CAST(customer_zip_code_prefix AS STRING), r'^\d{5}$')
+      WHEN customer_zip_code_prefix IS NOT NULL
+      AND REGEXP_CONTAINS(CAST(customer_zip_code_prefix AS STRING), r'^\d{5}$')
       THEN CAST(customer_zip_code_prefix AS STRING)
+      WHEN customer_zip_code_prefix IS NOT NULL
+      AND REGEXP_CONTAINS(CAST(customer_zip_code_prefix AS STRING), r'^\d{4}$')
+      THEN LPAD(CAST(customer_zip_code_prefix AS STRING), 5, '0')
       ELSE '00000'
     END,
     '00000'
