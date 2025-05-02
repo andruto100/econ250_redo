@@ -36,3 +36,5 @@ models:
       +materialized: table
     staging:
       +materialized: table
+    analysis:
+      +materialized: table

@@ -111,9 +111,9 @@ sources:
               - not_null
           - name: product_category_name
             description: "Root category of product, in Portuguese."
-          - name: product_name_lenght
+          - name: product_name_length
             description: "Number of characters extracted from the product name"
-          - name: product_description_lenght
+          - name: product_description_length
             description: "Number of characters extracted from the product description"
           - name: product_photos_qty
             description: "Number of product published photos"
