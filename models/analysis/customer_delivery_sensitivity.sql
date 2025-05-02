@@ -65,8 +65,22 @@ customer_speed_distribution AS (
     COUNT(*) AS total_orders
   FROM classified_deliveries
   GROUP BY customer_unique_id
+),
+
+delivery_scores AS (
+  SELECT
+    customer_unique_id,
+    total_orders,
+    fast_count,
+    medium_count,
+    slow_count,
+    ROUND(
+      (fast_count * 3 + medium_count * 2 + slow_count * 1) / total_orders,
+      2
+    ) AS avg_delivery_score
+  FROM customer_speed_distribution
 )
 
 SELECT *
-FROM customer_speed_distribution
+FROM delivery_scores
 ORDER BY total_orders DESC
