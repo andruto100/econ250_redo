@@ -8,3 +8,7 @@ SELECT
     COALESCE(freight_value, 0) AS freight_value,
     COALESCE(price, 0) + COALESCE(freight_value, 0) AS total_item_cost,
 FROM {{ source('AD_Redo', 'redo_order_items') }}
+WHERE
+    COALESCE(price, 0) > 0
+    AND COALESCE(freight_value, 0) > 0
+    AND order_item_id > 0

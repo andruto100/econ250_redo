@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: customer_delivery_sensitivity
+    description: "Analyzes how delivery speed affects the number of orders by customer.
+    delivery_speed_to_number_of_orders.py can be used for correlation visualisation. 
+    Unfortunately not informative enough with this amount of data"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "total_orders >= 0"
+    columns:
+      - name: customer_unique_id
+        description: "Unique identifier of a customer"
+      - name: total_orders
+        description: "Total number of orders placed by the customer"
+      - name: fast_count
+        description: "Number of orders marked as 'fast' deliveries"
+      - name: medium_count
+        description: "Number of orders marked as 'medium' deliveries"
+      - name: slow_count
+        description: "Number of orders marked as 'slow' deliveries"
+      - name: avg_delivery_score
+        description: "Average score representing the delivery speed for the customer's orders"
+
+
+  - name: fastest_sellers
+    description: "This model identifies the fastest sellers based on their average delivery days, calculating which sellers deliver orders the quickest"
+    columns:
+      - name: seller_id
+        description: "Unique identifier for the seller of the product"
+      - name: customer_state
+        description: "State of the customer"
+      - name: avg_delivery_days
+        description: "Average number of days taken for the seller to deliver an order"
+      - name: total_orders
+        description: "Total number of orders that the seller has fulfilled"
+
+
+  - name: repeat_purchase_product_category
+    description: "This model calculates the repeat purchase rates by product category, identifying how often customers reorder from a specific category"
+    tests:
+      - dbt_utils.not_negative:
+          column_name: freight_value
+    columns:
+      - name: product_category
+        description: "Name of the product category"
+      - name: total_customers
+        description: "Total number of customers who have made a purchase in this product category"
+      - name: repeat_customers
+        description: "Number of customers who have made repeat purchases from this product category"
+      - name: repeat_rate
+        description: "Fraction of customers who made repeat purchases in the product category, calculated as repeat_customers / total_customers"

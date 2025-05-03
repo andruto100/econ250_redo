@@ -6,3 +6,6 @@ SELECT
   COALESCE(payment_value, 0) AS payment_value,
   CASE WHEN COALESCE(payment_installments, 0) > 1 THEN TRUE ELSE FALSE END AS is_installment_payment
 FROM {{ source('AD_Redo', 'redo_order_payments') }}
+WHERE
+  COALESCE(payment_installments, 0) > 0
+  AND COALESCE(payment_value, 0) > 0

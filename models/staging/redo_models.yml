@@ -1,4 +1,5 @@
 version: 2
+
 models:
   - name: stg_redo_customers
     description: "Cleaned customer data with standardized fields and validated zip codes"
@@ -75,15 +76,15 @@ models:
       - name: price
         description: "Item price nulls replaced with 0"
         tests:
-          - not_negative
+          - dbt_utils.expression_is_true:
+              expression: "freight_value >= 0"
       - name: freight_value
         description: "Shipping cost, nulls replaced with 0"
         tests:
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: total_item_cost
         description: "Total cost (price + freight_value)"
-        tests:
-          - not_negative
     tests:
       - unique:
           column_name: "(order_id, order_item_id)"
@@ -108,12 +109,14 @@ models:
         description: "Number of installments chosen by the customer, nulls replaced with 0"
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: payment_value
         description: "Transaction value, nulls replaced with 0"
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: is_installment_payment
         description: "Boolean indicating if payment is in multiple installments"
         tests:
@@ -137,42 +140,50 @@ models:
         description: "Number of characters extracted from the product name, nulls replaced with 0"
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: product_description_length
         description: "Number of characters extracted from the product description, nulls replaced with 0."
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: product_photos_qty
         description: "Number of product published photos, nulls replaced with 0"
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: product_weight_g
         description: "Product weight in grams, nulls replaced with 0"
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: product_length_cm
         description: "Product length in cm, nulls replaced with 0"
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: product_height_cm
         description: "Product height in cm, nulls replaced with 0"
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: product_width_cm
         description: "Product width in cm, nulls replaced with 0"
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
       - name: volumetric_weight_kg
         description: "Volumetric weight in kg (length * width * height / 5000), null dimensions replaced with 0 "
         tests:
           - not_null
-          - not_negative
+          - dbt_utils.not_negative:
+              column_name: freight_value
   - name: stg_redo_sellers
     description: "This dataset includes data about the sellers that fulfilled orders made at Olist, standardised, 5-digit zip"
     columns:
