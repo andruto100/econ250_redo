@@ -1,15 +1,7 @@
-Welcome to your new dbt project!
+## Final Project Overview
 
-### Using the starter project
+This final project applies core analytics engineering concepts to build an end-to-end data solution using the Brazilian E-commerce dataset. The pipeline includes data ingestion, transformation, testing, and documentation.
 
-Try running the following commands:
-- dbt run
-- dbt test
+Raw data was transformed into production-ready analytical models using dbt. These models explore customer behavior, delivery performance, and seller efficiency. Key analyses include the impact of delivery speed on customer ordering patterns, repeat purchase rates across product categories, and identification of the fastest sellers by region.
 
-
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+Custom data tests were implemented to ensure data consistency, and all models and sources are fully documented with metadata passed downstream to BigQuery. This project demonstrates a complete analytics engineering workflow in a real-world context.
